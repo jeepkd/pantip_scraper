@@ -119,7 +119,7 @@ class Topic:
 		global udg_header
 		index = 0
 		while(index < 4):
-			start_page = requests.get("http://pantip.com/topic/%s"%(tid), 
+			start_page = requests.get("http://pantip.com/topic/%s"%(tid),
 				headers=udg_header_comment)
 			if (start_page.reason == 'OK'):
 				break
@@ -145,7 +145,7 @@ class Topic:
 		likeCount = tree.xpath('//span[starts-with(@class,"like-score")]/text()')[0]
 		emoCount = tree.xpath('//span[starts-with(@class,"emotion-score")]/text()')[0]
 		allEmos = tree.xpath('//span[@class="emotion-choice-score"]/text()')
-		tags = tree.xpath('//div[@class="display-post-tag-wrapper"]/a[@class="tag-item"]/text()')
+		tags = tree.xpath('//div[@class="display-post-tag-wrapper"]/a/text()')
 		dateTime = tree.xpath('//abbr[@class="timeago"]/@data-utime')[0]
 
 		emotions = Emotion(allEmos[0], allEmos[1], allEmos[2], allEmos[3], allEmos[4], allEmos[5])
@@ -203,7 +203,7 @@ class Comment:
 		index = 0
 		while(index < 4):
 			random_time = random.random()
-			comment_response = requests.get("http://pantip.com/forum/topic/render_comments?tid=%s&param=&type=3&time=%s"%(tid, random_time), 
+			comment_response = requests.get("http://pantip.com/forum/topic/render_comments?tid=%s&param=&type=3&time=%s"%(tid, random_time),
 					headers=udg_header_comment)
 			if (comment_response.reason == 'OK'):
 				break
@@ -257,14 +257,14 @@ class Comment:
 		# Coming soon
 		replies = []
 		emotions = Emotion.convertPantip2Python(comment['emotion'])
-		return Comment(comment['comment_no'], 
-			comment['user']['mid'], 
-			comment['user']['name'], 
-			comment['reply_count'], 
-			replies, 
-			comment['message'], 
-			emotions, 
-			comment['point'], 
+		return Comment(comment['comment_no'],
+			comment['user']['mid'],
+			comment['user']['name'],
+			comment['reply_count'],
+			replies,
+			comment['message'],
+			emotions,
+			comment['point'],
 			comment['data_utime'])
 
 	def toDict(self):
@@ -296,11 +296,11 @@ class Emotion:
 
 	@staticmethod
 	def convertPantip2Python(emotions):
-		return Emotion(emotions['like']['count'], 
-			emotions['laugh']['count'], 
-			emotions['love']['count'], 
-			emotions['impress']['count'], 
-			emotions['scary']['count'], 
+		return Emotion(emotions['like']['count'],
+			emotions['laugh']['count'],
+			emotions['love']['count'],
+			emotions['impress']['count'],
+			emotions['scary']['count'],
 			emotions['surprised']['count'])
 
 	def toDict(self):
@@ -319,7 +319,7 @@ class Emotion:
 
 def modeRoom(submode):
 	random_time = random.random()
-	topicList_response = requests.post("http://pantip.com/forum/topic/ajax_json_all_topic_info_loadmore?t=%s"%(random_time), 
+	topicList_response = requests.post("http://pantip.com/forum/topic/ajax_json_all_topic_info_loadmore?t=%s"%(random_time),
 				data = {'last_id_current_page' : "35100000",
 						'dataSend[room]' : "food",
 						'dataSend[topic_type][type]' : "0",
